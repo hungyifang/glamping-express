@@ -5,10 +5,10 @@ var cors = require("cors");
 var cookieParser = require("cookie-parser");
 var expressSession = require("express-session");
 var logger = require("morgan");
+const fileUpload = require("express-fileupload");
 
 var indexRouter = require("./routes/index");
 var apiRouter = require("./routes/api");
-
 
 var app = express();
 
@@ -28,6 +28,12 @@ app.use(
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     resave: false,
+  })
+);
+
+app.use(
+  fileUpload({
+    createParentPath: true,
   })
 );
 
