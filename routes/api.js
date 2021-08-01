@@ -1,25 +1,22 @@
 var express = require("express");
 var router = express.Router();
 
+var authAPI = require("../api/auth");
 var usersAPI = require("../api/users");
-router.use("/users", usersAPI);
-
 var pointAPI = require("../api/points");
-router.use("/points", pointAPI);
-
 var ordersAPI = require("../api/orders");
-router.use("/orders", ordersAPI);
-
 var favAPI = require("../api/fav");
-router.use("/fav", favAPI);
-
 var commentAPI = require("../api/comment");
-router.use("/comment", commentAPI);
-
 var orderviewAPI = require("../api/orderview");
-router.use("/orderview", orderviewAPI);
-
 var avatarAPI = require("../api/avatar");
+
+router.use("/auth", authAPI);
+router.use("/users", usersAPI);
+router.use("/points", pointAPI);
+router.use("/orders", ordersAPI);
+router.use("/fav", favAPI);
+router.use("/comment", commentAPI);
+router.use("/orderview", orderviewAPI);
 router.use("/avatar", avatarAPI);
 
 module.exports = router;

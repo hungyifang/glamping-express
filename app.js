@@ -6,9 +6,12 @@ var cookieParser = require("cookie-parser");
 var expressSession = require("express-session");
 var logger = require("morgan");
 const fileUpload = require("express-fileupload");
+var passport = require("passport");
 
 var indexRouter = require("./routes/index");
 var apiRouter = require("./routes/api");
+
+require("./config/passport")(passport);
 
 var app = express();
 
@@ -17,19 +20,24 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 app.use(logger("dev"));
-app.use(cors());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
   expressSession({
     secret: process.env.SESSION_SECRET,
-    saveUninitialized: false,
+    // saveUninitialized: false,
+    saveUninitialized: true,
     resave: false,
+    // cookie: { secure: false }, // Remember to set this
   })
 );
+app.use(cookieParser(process.env.SESSION_SECRET));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(
   fileUpload({
