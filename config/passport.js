@@ -7,12 +7,11 @@ module.exports = function (passport) {
     done(null, user.u_id);
   });
 
-  // 以ID去撈user資料
   passport.deserializeUser((id, done) => {
     console.log("Inside deserializeUser callback");
     usersModel
       .findById(id)
-      .then((user) => { 
+      .then((user) => {
         if (!user) {
           return done(null, false, {
             errors: { "username or password": "is invalid" },
