@@ -38,9 +38,7 @@ router.get("/card/rank/new", async (req, res, next) => {
 
 router.get("/card/userDeg", async (req, res, next) => {
   let u_id = req.query.u_id;
-  let deg = await conn.query(
-    `SELECT * FROM users_choice WHERE u_id = ${u_id}`
-  );
+  let deg = await conn.query(`SELECT * FROM users_choice WHERE u_id = ${u_id}`);
   res.json(deg);
 });
 
@@ -57,7 +55,7 @@ router.get("/fav", async (req, res, next) => {
   let u_id = req.query.u_id;
   let i_id = req.query.i_id;
   let [rows, fields] = await conn.query(
-    `INSERT INTO users_likes  (u_id,i_id,able) VALUES (${u_id},${i_id},${fav})`
+    `UPDATE users_likes SET able = ${fav} WHERE u_id = ${u_id} AND i_id = ${i_id}`
   );
   res.json("success");
 });
@@ -67,16 +65,17 @@ router.get("/checkFav", async (req, res, next) => {
   let i_id = req.query.i_id;
   //確認使用者是否有加入紀錄
   let result = await conn.query(
-    `SELECT * FROM users_likes WHERE u_id= ${u_id} AND i_id = ${i_id})`
+    `SELECT * FROM users_likes WHERE u_id = ${u_id} AND i_id = ${i_id}`
   );
-  //如果沒有加入資料庫 able=0
-  if (result.length === 0) {
+  // console.log(result[0][0].able);
+  //如果沒有,加入資料庫 able=0
+  if (result[0].length === 0) {
     let [rows, fields] = await conn.query(
       `INSERT INTO users_likes  (u_id,i_id,able) VALUES (${u_id},${i_id},0)`
     );
-    return res.json("success");
+    return res.json("0");
   }
-  res.json(result.data[0].able);
+  res.json(result[0][0].able);
 });
 
 router.get("/detail", async (req, res, next) => {
