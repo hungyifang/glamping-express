@@ -12,7 +12,10 @@ var favAPI = require("../api/fav");
 var commentAPI = require("../api/comment");
 var orderviewAPI = require("../api/orderview");
 var avatarAPI = require("../api/avatar");
-
+var itemsAPI = require("../api/items");
+var customizedAPI = require("../api/customized");
+var roomsAPI = require("../api/rooms");
+var oderAPI = require("../api/orders");
 // Fang
 var eventAPI = require("../api/event");
 
@@ -26,5 +29,9 @@ router.use("/comment", commentAPI);
 router.use("/orderview", orderviewAPI);
 router.use("/avatar", avatarAPI);
 router.use("/event", eventAPI);
+router.use("/items", itemsAPI);
+router.use("/customized", customizedAPI);
+router.use("/rooms", roomsAPI);
+router.use("/orders", oderAPI);
 
 module.exports = router;
