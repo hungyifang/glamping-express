@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 
-var eventAPI = require("../api/event");
 var authAPI = require("../api/auth");
 
 // Yuna
@@ -15,13 +14,13 @@ var avatarAPI = require("../api/avatar");
 var itemsAPI = require("../api/items");
 var customizedAPI = require("../api/customized");
 var roomsAPI = require("../api/rooms");
-var oderAPI = require("../api/orders");
+var imagesAPI = require("../api/images");
+
 // Fang
 var eventAPI = require("../api/event");
 
 router.use("/auth", authAPI);
 router.use("/users", usersAPI);
-router.use("/event", eventAPI);
 router.use("/points", pointAPI);
 router.use("/orders", ordersAPI);
 router.use("/fav", favAPI);
@@ -32,6 +31,6 @@ router.use("/event", eventAPI);
 router.use("/items", itemsAPI);
 router.use("/customized", customizedAPI);
 router.use("/rooms", roomsAPI);
-router.use("/orders", oderAPI);
+router.use("/images", imagesAPI);
 
 module.exports = router;
