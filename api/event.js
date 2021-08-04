@@ -119,12 +119,13 @@ router.post("/addCart", async (req, res, next) => {
       `INSERT INTO ordered (i_id, total, level, person, start, s_id, prime, title, message) VALUES (${data.i_id}, ${data.total}, ${data.level}, ${data.person}, '${data.start}', ${data.s_id}, ${data.prime}, '${data.title}', '${data.message}')`
     );
     let get_o_id = await conn.query(`SELECT LAST_INSERT_ID() AS o_id`);
-    let o_id = get_o_id[0].o_id;
-    console.log(o_id);
+    let o_id = get_o_id[0][0].o_id;
     let result = await conn.query(
       `SELECT time FROM items JOIN ordered ON items.i_id = ordered.i_id WHERE ordered.o_id = ${o_id}`
     );
-    res.json(result[0].time, o_id);
+    let time = result[0][0].time;
+    let reqData = { o_id: o_id, time: time };
+    res.json(reqData);
   } else {
     let insertDB = await conn.query(
       `INSERT INTO ordered (u_id, i_id, total, level, person, start, s_id, prime, title, message) VALUES (${data.u_id}, ${data.i_id}, ${data.total}, ${data.level}, ${data.person}, '${data.start}', ${data.s_id}, ${data.prime}, '${data.title}', '${data.message}')`
@@ -134,7 +135,8 @@ router.post("/addCart", async (req, res, next) => {
     let result = await conn.query(
       `SELECT time FROM items JOIN ordered ON items.i_id = ordered.i_id WHERE ordered.o_id = ${o_id}`
     );
-    res.json(result[0].time, o_id);
+    let time = result[0][0].time;
+    res.json(o_id, time);
   }
 
   res.json("success");
