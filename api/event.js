@@ -38,7 +38,9 @@ router.get("/card/rank/new", async (req, res, next) => {
 
 router.get("/card/userDeg", async (req, res, next) => {
   let u_id = req.query.u_id;
-  let deg = await conn.query(`SELECT * FROM users_choice WHERE u_id = ${u_id}`);
+  let deg = await conn.query(
+    `SELECT deg_1, deg_2, deg_3 FROM users WHERE u_id = ${u_id}`
+  );
   res.json(deg);
 });
 
@@ -108,6 +110,34 @@ router.get("/review", async (req, res, next) => {
   let i_id = req.query.i_id;
   let reviews = await conn.query(`SELECT * FROM discuss WHERE i_id = ${i_id}`);
   res.json(reviews);
+});
+
+router.post("/addCart", async (req, res, next) => {
+  let data = req.body.data;
+  if (data.u_id === "") {
+    let insertDB = await conn.query(
+      `INSERT INTO ordered (i_id, total, level, person, start, s_id, prime, title, message) VALUES (${data.i_id}, ${data.total}, ${data.level}, ${data.person}, '${data.start}', ${data.s_id}, ${data.prime}, '${data.title}', '${data.message}')`
+    );
+    let get_o_id = await conn.query(`SELECT LAST_INSERT_ID() AS o_id`);
+    let o_id = get_o_id[0].o_id;
+    console.log(o_id);
+    let result = await conn.query(
+      `SELECT time FROM items JOIN ordered ON items.i_id = ordered.i_id WHERE ordered.o_id = ${o_id}`
+    );
+    res.json(result[0].time, o_id);
+  } else {
+    let insertDB = await conn.query(
+      `INSERT INTO ordered (u_id, i_id, total, level, person, start, s_id, prime, title, message) VALUES (${data.u_id}, ${data.i_id}, ${data.total}, ${data.level}, ${data.person}, '${data.start}', ${data.s_id}, ${data.prime}, '${data.title}', '${data.message}')`
+    );
+    let get_o_id = await conn.query(`SELECT LAST_INSERT_ID() AS o_id`);
+    let o_id = get_o_id[0].o_id;
+    let result = await conn.query(
+      `SELECT time FROM items JOIN ordered ON items.i_id = ordered.i_id WHERE ordered.o_id = ${o_id}`
+    );
+    res.json(result[0].time, o_id);
+  }
+
+  res.json("success");
 });
 
 module.exports = router;
