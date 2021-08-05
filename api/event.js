@@ -114,31 +114,38 @@ router.get("/review", async (req, res, next) => {
 
 router.post("/addCart", async (req, res, next) => {
   let data = req.body.data;
+  if (data.person === 0) {
+    return res.json({ o_id: 0 });
+  }
   if (data.u_id === "") {
     let insertDB = await conn.query(
       `INSERT INTO ordered (i_id, total, level, person, start, s_id, prime, title, message) VALUES (${data.i_id}, ${data.total}, ${data.level}, ${data.person}, '${data.start}', ${data.s_id}, ${data.prime}, '${data.title}', '${data.message}')`
     );
-    let get_o_id = await conn.query(`SELECT LAST_INSERT_ID() AS o_id`);
-    let o_id = get_o_id[0][0].o_id;
-    let result = await conn.query(
-      `SELECT time FROM items JOIN ordered ON items.i_id = ordered.i_id WHERE ordered.o_id = ${o_id}`
+    let get_o_id = await conn.query(
+      `SELECT o_id FROM ordered ORDER BY o_id DESC LIMIT 1`
     );
-    let time = result[0][0].time;
-    let reqData = { o_id: o_id, time: time };
+    let o_id = get_o_id[0][0].o_id;
+    console.log(o_id);
+    let reqData = { o_id: o_id };
     res.json(reqData);
   } else {
     let insertDB = await conn.query(
       `INSERT INTO ordered (u_id, i_id, total, level, person, start, s_id, prime, title, message) VALUES (${data.u_id}, ${data.i_id}, ${data.total}, ${data.level}, ${data.person}, '${data.start}', ${data.s_id}, ${data.prime}, '${data.title}', '${data.message}')`
     );
-    let get_o_id = await conn.query(`SELECT LAST_INSERT_ID() AS o_id`);
-    let o_id = get_o_id[0].o_id;
-    let result = await conn.query(
-      `SELECT time FROM items JOIN ordered ON items.i_id = ordered.i_id WHERE ordered.o_id = ${o_id}`
+    let get_o_id = await conn.query(
+      `SELECT o_id FROM ordered ORDER BY o_id DESC LIMIT 1`
     );
-    let time = result[0][0].time;
-    res.json(o_id, time);
+    let o_id = get_o_id[0][0].o_id;
+    let reqData = { o_id: o_id };
+    res.json(reqData);
   }
+});
 
+router.post("/order-detail", async (req, res, next) => {
+  let data = req.body.data;
+  let insertDB = await conn.query(
+    `INSERT INTO ordered_detail (o_id, i_id, price, quantity, ship_date) VALUES (${data.o_id}, ${data.i_id}, ${data.price}, ${data.quantity}, '${data.ship_date}')`
+  );
   res.json("success");
 });
 
