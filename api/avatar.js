@@ -17,7 +17,7 @@ router.post("/:id", (req, res) => {
     file.mv(
       `${rootPath}/public/images/avatar/${req.params.id}.${extensionName}`
     );
-    res.json({msg: "個人資料相片已更新" });
+    res.json({ status:1, msg: "個人資料相片已更新" });
   } catch (err) {
     res.status(500).json(err);
   }
