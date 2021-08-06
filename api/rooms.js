@@ -36,7 +36,7 @@ router.get("/top", async (req, res, next) => {
     // console.log(req.body)
     for (let i = 0; i < req.body.length; i++){
       await conn.query(
-        `UPDATE ordered SET s_id = "10" WHERE o_id = ${req.body[i].o_id}`
+        `UPDATE ordered SET s_id = "10" , u_id = ${req.body[i].u_id} WHERE o_id = ${req.body[i].o_id}`
       );
     }
     
