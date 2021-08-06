@@ -7,15 +7,15 @@ router.get("/", async (req, res, next) => {
     res.json(result[0]);
   });
 router.get("/sea", async (req, res, next) => {
-    let result = await conn.query(`SELECT COUNT(id) as count, occupy, level FROM rooms WHERE level = 36 AND stay = 1 GROUP BY occupy `);
+    let result = await conn.query(`SELECT COUNT(id) as count, occupy, level FROM rooms WHERE level = 56 AND stay = 1 GROUP BY occupy `);
     res.json(result[0]);
   });
 router.get("/grass", async (req, res, next) => {
-    let result = await conn.query(`SELECT COUNT(id) as count, occupy, level FROM rooms WHERE level = 37 AND stay = 1 GROUP BY occupy `);
+    let result = await conn.query(`SELECT COUNT(id) as count, occupy, level FROM rooms WHERE level = 57 AND stay = 1 GROUP BY occupy `);
     res.json(result[0]);
   });  
 router.get("/top", async (req, res, next) => {
-    let result = await conn.query(`SELECT COUNT(id) as count, occupy, level FROM rooms WHERE level = 38 AND stay = 1 GROUP BY occupy `);
+    let result = await conn.query(`SELECT COUNT(id) as count, occupy, level FROM rooms WHERE level = 58 AND stay = 1 GROUP BY occupy `);
     res.json(result[0]);
   });  
   router.post("/rooms", async (req, res, next) => {
