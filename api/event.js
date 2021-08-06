@@ -125,7 +125,7 @@ router.post("/addCart", async (req, res, next) => {
       `SELECT o_id FROM ordered ORDER BY o_id DESC LIMIT 1`
     );
     let o_id = get_o_id[0][0].o_id;
-    console.log(o_id);
+    // console.log(o_id);
     let reqData = { o_id: o_id };
     res.json(reqData);
   } else {
