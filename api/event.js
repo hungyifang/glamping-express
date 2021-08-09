@@ -119,7 +119,7 @@ router.post("/addCart", async (req, res, next) => {
   }
   if (data.u_id === "") {
     let insertDB = await conn.query(
-      `INSERT INTO ordered (i_id, total, level, person, start, s_id, prime, title, message) VALUES (${data.i_id}, ${data.total}, ${data.level}, ${data.person}, '${data.start}', ${data.s_id}, ${data.prime}, '${data.title}', '${data.message}')`
+      `INSERT INTO ordered (i_id, total, level, person, start, s_id, prime, title, message, img_src) VALUES (${data.i_id}, ${data.total}, ${data.level}, ${data.person}, '${data.start}', ${data.s_id}, ${data.prime}, '${data.title}', '${data.message}', '${data.img_src}')`
     );
     let get_o_id = await conn.query(
       `SELECT o_id FROM ordered ORDER BY o_id DESC LIMIT 1`
@@ -130,7 +130,7 @@ router.post("/addCart", async (req, res, next) => {
     res.json(reqData);
   } else {
     let insertDB = await conn.query(
-      `INSERT INTO ordered (u_id, i_id, total, level, person, start, s_id, prime, title, message) VALUES (${data.u_id}, ${data.i_id}, ${data.total}, ${data.level}, ${data.person}, '${data.start}', ${data.s_id}, ${data.prime}, '${data.title}', '${data.message}')`
+      `INSERT INTO ordered (u_id, i_id, total, level, person, start, s_id, prime, title, message, img_src) VALUES (${data.u_id}, ${data.i_id}, ${data.total}, ${data.level}, ${data.person}, '${data.start}', ${data.s_id}, ${data.prime}, '${data.title}', '${data.message}', '${data.img_src}')`
     );
     let get_o_id = await conn.query(
       `SELECT o_id FROM ordered ORDER BY o_id DESC LIMIT 1`
